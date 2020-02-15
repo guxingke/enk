@@ -10,3 +10,9 @@
 mvn clean package
 
 ```
+
+# Test
+```bash
+./test.sh
+```
+

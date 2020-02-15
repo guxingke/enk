@@ -1,0 +1,5 @@
+val x = "xxx"
+print x
+
+val y = 10
+print y

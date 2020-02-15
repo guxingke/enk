@@ -8,9 +8,9 @@ import org.objectweb.asm.Opcodes;
 
 public class Gen {
 
-  public byte[] gen(List<Instruction> instructions) {
+  public byte[] gen(List<Instruction> instructions, String className) {
     ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-    cw.visit(52, Opcodes.ACC_PUBLIC + Opcodes.ACC_SUPER, "Test", null, "java/lang/Object", null);
+    cw.visit(52, Opcodes.ACC_PUBLIC + Opcodes.ACC_SUPER, className, null, "java/lang/Object", null);
     {
       MethodVisitor mv = cw.visitMethod(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "main",
           "([Ljava/lang/String;)V", null, null);
