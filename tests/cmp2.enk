@@ -1,0 +1,11 @@
+val a = 10
+
+if a > 10 
+  print 11
+
+else if a < 10 
+  print 9
+
+else
+  print 10
+

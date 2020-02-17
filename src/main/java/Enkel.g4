@@ -2,13 +2,20 @@
 grammar Enkel;
 
 //parser rules
-compilationUnit : ( blockStatement )* EOF;
-blockStatement : variableDeclaration
-               | printStatement
-               | expressionList ;
+compilationUnit : ( statement )* EOF;
+
+block : '{' statement* '}' ;
+
+statement : block
+   | variableDeclaration
+   | printStatement
+   | expressionList
+   | ifStatement
+ ;
 variableDeclaration : VARIABLE name EQUALS expression;
 name : ID ;
 printStatement : PRINT expression ;
+ifStatement :  'if'  ('(')? expression (')')? trueStatement=statement ('else' falseStatement=statement)?;
 expressionList : expression (',' expression)* ;
 expression :
             varReference #VARREFERENCE
@@ -21,6 +28,12 @@ expression :
            | expression '+' expression #ADD
            | '(' expression '-' expression ')' #SUBSTRACT
            | expression '-' expression #SUBSTRACT
+           | expression cmp='>' expression #conditionalExpression
+           | expression cmp='<' expression #conditionalExpression
+           | expression cmp='==' expression #conditionalExpression
+           | expression cmp='!=' expression #conditionalExpression
+           | expression cmp='>=' expression #conditionalExpression
+           | expression cmp='<=' expression #conditionalExpression
            ;
 
 varReference: ID ;

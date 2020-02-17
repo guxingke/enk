@@ -3,9 +3,13 @@ package com.gxk.enk.gen;
 import com.gxk.enk.antlr.EnkelLexer;
 import com.gxk.enk.domain.Scope;
 import com.gxk.enk.domain.expression.Expression;
+import com.gxk.enk.domain.statement.BlockStatement;
 import com.gxk.enk.domain.statement.ExpressionListStatement;
+import com.gxk.enk.domain.statement.IfStatement;
 import com.gxk.enk.domain.statement.PrintStatement;
+import com.gxk.enk.domain.statement.Statement;
 import com.gxk.enk.domain.statement.VariableDeclarationStatement;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
@@ -50,6 +54,27 @@ public class StatementGenerator {
       mv.visitVarInsn(Opcodes.ISTORE, index);
     } else if (type == EnkelLexer.STRING) {
       mv.visitVarInsn(Opcodes.ASTORE, index);
+    }
+  }
+
+  public void gen(IfStatement ifStatement) {
+    Expression condition = ifStatement.getCondition();
+    condition.accept(expressionGenerator);
+
+    Label trueLabel = new Label();
+    Label endLabel = new Label();
+
+    mv.visitJumpInsn(Opcodes.IFNE, trueLabel);
+    ifStatement.getFalseStatement().accept(this);
+    mv.visitJumpInsn(Opcodes.GOTO, endLabel);
+    mv.visitLabel(trueLabel);
+    ifStatement.getTrueStatement().accept(this);
+    mv.visitLabel(endLabel);
+  }
+
+  public void gen(BlockStatement blockStatement) {
+    for (Statement statement : blockStatement.getStatements()) {
+      statement.accept(this);
     }
   }
 }

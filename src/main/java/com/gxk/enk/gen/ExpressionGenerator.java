@@ -4,11 +4,14 @@ import com.gxk.enk.antlr.EnkelLexer;
 import com.gxk.enk.domain.expression.Addition;
 import com.gxk.enk.domain.LocalVariable;
 import com.gxk.enk.domain.Scope;
+import com.gxk.enk.domain.expression.ConditionalExpression;
 import com.gxk.enk.domain.expression.Division;
+import com.gxk.enk.domain.expression.Expression;
 import com.gxk.enk.domain.expression.Multiplication;
 import com.gxk.enk.domain.expression.Substraction;
 import com.gxk.enk.domain.expression.ValueExpression;
 import com.gxk.enk.domain.expression.VarReferenceExpression;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
@@ -67,5 +70,49 @@ public class ExpressionGenerator {
     expression.getLeft().accept(this);
     expression.getRight().accept(this);
     mv.visitInsn(Opcodes.IDIV);
+  }
+
+  public void gen(ConditionalExpression expression) {
+    Expression left = expression.getLeft();
+    Expression right = expression.getRight();
+    if (left.getType() != right.getType()) {
+      throw new IllegalStateException("type not match");
+    }
+    left.accept(this);
+    right.accept(this);
+
+    Label trueLabel = new Label();
+    Label endLabel = new Label();
+    if (left.getType() == EnkelLexer.STRING) {
+      throw new UnsupportedOperationException();
+    }
+
+    int opCode = Opcodes.NOP;
+    switch (expression.getOp()) {
+      case "==":
+        opCode = Opcodes.IF_ICMPEQ;
+        break;
+      case "!=":
+        opCode = Opcodes.IF_ICMPNE;
+        break;
+      case ">":
+        opCode = Opcodes.IF_ICMPGT;
+        break;
+      case ">=":
+        opCode = Opcodes.IF_ICMPGE;
+        break;
+      case "<":
+        opCode = Opcodes.IF_ICMPLT;
+        break;
+      case "<=":
+        opCode = Opcodes.IF_ICMPLE;
+        break;
+    }
+    mv.visitJumpInsn(opCode, trueLabel);
+    mv.visitInsn(Opcodes.ICONST_0);
+    mv.visitJumpInsn(Opcodes.GOTO, endLabel);
+    mv.visitLabel(trueLabel);
+    mv.visitInsn(Opcodes.ICONST_1);
+    mv.visitLabel(endLabel);
   }
 }

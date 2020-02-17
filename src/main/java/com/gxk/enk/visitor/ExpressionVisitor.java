@@ -2,6 +2,7 @@ package com.gxk.enk.visitor;
 
 import com.gxk.enk.antlr.EnkelBaseVisitor;
 import com.gxk.enk.antlr.EnkelParser.ADDContext;
+import com.gxk.enk.antlr.EnkelParser.ConditionalExpressionContext;
 import com.gxk.enk.antlr.EnkelParser.DIVIDEContext;
 import com.gxk.enk.antlr.EnkelParser.ExpressionContext;
 import com.gxk.enk.antlr.EnkelParser.MULTIPLYContext;
@@ -12,6 +13,7 @@ import com.gxk.enk.antlr.EnkelParser.VarReferenceContext;
 import com.gxk.enk.domain.expression.Addition;
 import com.gxk.enk.domain.LocalVariable;
 import com.gxk.enk.domain.Scope;
+import com.gxk.enk.domain.expression.ConditionalExpression;
 import com.gxk.enk.domain.expression.Division;
 import com.gxk.enk.domain.expression.Expression;
 import com.gxk.enk.domain.expression.Multiplication;
@@ -79,5 +81,18 @@ public class ExpressionVisitor extends EnkelBaseVisitor<Expression> {
     Expression rightExp = right.accept(this);
 
     return new Division(leftExp, rightExp);
+  }
+
+  @Override
+  public Expression visitConditionalExpression(ConditionalExpressionContext ctx) {
+    String op = ctx.cmp.getText();
+    if (op == null) {
+      op = "!=";
+    }
+    ExpressionContext leftCtx = ctx.expression(0);
+    ExpressionContext rightCtx = ctx.expression(1);
+    Expression left = leftCtx.accept(this);
+    Expression right = rightCtx == null ? new ValueExpression("0") : rightCtx.accept(this);
+    return new ConditionalExpression(op, left, right);
   }
 }

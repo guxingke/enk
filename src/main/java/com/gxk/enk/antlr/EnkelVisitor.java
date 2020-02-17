@@ -17,11 +17,17 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCompilationUnit(EnkelParser.CompilationUnitContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link EnkelParser#blockStatement}.
+	 * Visit a parse tree produced by {@link EnkelParser#block}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitBlockStatement(EnkelParser.BlockStatementContext ctx);
+	T visitBlock(EnkelParser.BlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link EnkelParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatement(EnkelParser.StatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link EnkelParser#variableDeclaration}.
 	 * @param ctx the parse tree
@@ -40,6 +46,12 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitPrintStatement(EnkelParser.PrintStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link EnkelParser#ifStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIfStatement(EnkelParser.IfStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link EnkelParser#expressionList}.
 	 * @param ctx the parse tree
@@ -60,6 +72,13 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitSUBSTRACT(EnkelParser.SUBSTRACTContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code conditionalExpression}
+	 * labeled alternative in {@link EnkelParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConditionalExpression(EnkelParser.ConditionalExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code MULTIPLY}
 	 * labeled alternative in {@link EnkelParser#expression}.

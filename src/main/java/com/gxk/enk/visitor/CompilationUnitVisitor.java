@@ -1,8 +1,8 @@
 package com.gxk.enk.visitor;
 
 import com.gxk.enk.antlr.EnkelBaseVisitor;
-import com.gxk.enk.antlr.EnkelParser.BlockStatementContext;
 import com.gxk.enk.antlr.EnkelParser.CompilationUnitContext;
+import com.gxk.enk.antlr.EnkelParser.StatementContext;
 import com.gxk.enk.domain.CompilationUnit;
 import com.gxk.enk.domain.Scope;
 import com.gxk.enk.domain.statement.Statement;
@@ -17,8 +17,8 @@ public class CompilationUnitVisitor extends EnkelBaseVisitor<CompilationUnit> {
   public CompilationUnit visitCompilationUnit(CompilationUnitContext ctx) {
     BlockStatementVisitor blockStatementVisitor = new BlockStatementVisitor(scope);
     List<Statement> statements = new ArrayList<>();
-    for (BlockStatementContext blockStatementContext : ctx.blockStatement()) {
-      Statement statement = blockStatementContext.accept(blockStatementVisitor);
+    for (StatementContext statementContext : ctx.statement()) {
+      Statement statement = statementContext.accept(blockStatementVisitor);
       statements.add(statement);
     }
 
