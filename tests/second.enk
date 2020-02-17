@@ -1,5 +1,2 @@
-val x = "xxx"
-print x
+print 10
 
-val y = 10
-print y

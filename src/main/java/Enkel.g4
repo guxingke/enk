@@ -2,17 +2,36 @@
 grammar Enkel;
 
 //parser rules
-compilationUnit : ( variable | print )* EOF; //root rule - globally code consist only of variables and prints (see definition below)
-variable : VARIABLE ID EQUALS value; //requires VAR token followed by ID token followed by EQUALS TOKEN ...
-print : PRINT ID ; //print statement must consist of 'print' keyword and ID
+compilationUnit : ( blockStatement )* EOF;
+blockStatement : variableDeclaration
+               | printStatement
+               | expressionList ;
+variableDeclaration : VARIABLE name EQUALS expression;
+name : ID ;
+printStatement : PRINT expression ;
+expressionList : expression (',' expression)* ;
+expression :
+            varReference #VARREFERENCE
+           | value        #VALUE
+           |  '('expression '*' expression')' #MULTIPLY
+           | expression '*' expression  #MULTIPLY
+           | '(' expression '/' expression ')' #DIVIDE
+           | expression '/' expression #DIVIDE
+           | '(' expression '+' expression ')' #ADD
+           | expression '+' expression #ADD
+           | '(' expression '-' expression ')' #SUBSTRACT
+           | expression '-' expression #SUBSTRACT
+           ;
+
+varReference: ID ;
 value : NUMBER
-      | STRING ; //must be NUMBER or STRING value (defined below)
+      | STRING ;
 
 //lexer rules (tokens)
-VARIABLE : 'val' ; //VARIABLE TOKEN must match exactly 'var'
+VARIABLE : 'val' ;
 PRINT : 'print' ;
-EQUALS : '=' ; //must be '='
-NUMBER : [0-9]+ ; //must consist only of digits
-STRING : '"'.*'"' ; //must be anything in qutoes
-ID : [a-zA-Z0-9]+ ; //must be any alphanumeric value
-WS: [ \t\n\r]+ -> skip ; //special TOKEN for skipping whitespaces
+EQUALS : '=' ;
+NUMBER : [0-9]+ ;
+STRING : '"'.*'"' ;
+ID : [a-zA-Z0-9]+ ;
+WS: [ \t\n\r]+ -> skip ;
