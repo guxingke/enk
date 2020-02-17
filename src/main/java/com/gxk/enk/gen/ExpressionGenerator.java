@@ -1,8 +1,12 @@
 package com.gxk.enk.gen;
 
 import com.gxk.enk.antlr.EnkelLexer;
+import com.gxk.enk.domain.expression.Addition;
 import com.gxk.enk.domain.LocalVariable;
 import com.gxk.enk.domain.Scope;
+import com.gxk.enk.domain.expression.Division;
+import com.gxk.enk.domain.expression.Multiplication;
+import com.gxk.enk.domain.expression.Substraction;
 import com.gxk.enk.domain.expression.ValueExpression;
 import com.gxk.enk.domain.expression.VarReferenceExpression;
 import org.objectweb.asm.MethodVisitor;
@@ -39,5 +43,29 @@ public class ExpressionGenerator {
     } else {
       mv.visitVarInsn(Opcodes.ALOAD, index);
     }
+  }
+
+  public void gen(Addition expression) {
+    expression.getLeft().accept(this);
+    expression.getRight().accept(this);
+    mv.visitInsn(Opcodes.IADD);
+  }
+
+  public void gen(Multiplication expression) {
+    expression.getLeft().accept(this);
+    expression.getRight().accept(this);
+    mv.visitInsn(Opcodes.IMUL);
+  }
+
+  public void gen(Substraction expression) {
+    expression.getLeft().accept(this);
+    expression.getRight().accept(this);
+    mv.visitInsn(Opcodes.ISUB);
+  }
+
+  public void gen(Division expression) {
+    expression.getLeft().accept(this);
+    expression.getRight().accept(this);
+    mv.visitInsn(Opcodes.IDIV);
   }
 }
