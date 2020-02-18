@@ -4,11 +4,15 @@ import com.gxk.enk.antlr.EnkelBaseVisitor;
 import com.gxk.enk.antlr.EnkelParser.BlockContext;
 import com.gxk.enk.antlr.EnkelParser.ExpressionContext;
 import com.gxk.enk.antlr.EnkelParser.ExpressionListContext;
+import com.gxk.enk.antlr.EnkelParser.ForConditionContext;
+import com.gxk.enk.antlr.EnkelParser.ForStatementContext;
 import com.gxk.enk.antlr.EnkelParser.IfStatementContext;
 import com.gxk.enk.antlr.EnkelParser.PrintStatementContext;
 import com.gxk.enk.antlr.EnkelParser.StatementContext;
+import com.gxk.enk.antlr.EnkelParser.VarReferenceContext;
 import com.gxk.enk.antlr.EnkelParser.VariableDeclarationContext;
 import com.gxk.enk.domain.LocalVariable;
+import com.gxk.enk.domain.RangedForStatement;
 import com.gxk.enk.domain.Scope;
 import com.gxk.enk.domain.expression.Expression;
 import com.gxk.enk.domain.statement.BlockStatement;
@@ -74,8 +78,24 @@ public class BlockStatementVisitor extends EnkelBaseVisitor<Statement> {
     Expression cond = expression.accept(expressionVisitor);
 
     Statement trueStatement = ctx.trueStatement.accept(this);
-    Statement falseStatemetn = ctx.falseStatement.accept(this);
+    Statement falseStatement = ctx.falseStatement.accept(this);
 
-    return new IfStatement(cond, trueStatement, falseStatemetn);
+    return new IfStatement(cond, trueStatement, falseStatement);
   }
+
+  @Override
+  public Statement visitForStatement(ForStatementContext ctx) {
+    Scope newScope = scope;
+    ForConditionContext forConditionContext = ctx.forCondition();
+    ExpressionVisitor expressionVisitor = new ExpressionVisitor(newScope);
+    Expression startExpression = forConditionContext.left.accept(expressionVisitor);
+    Expression endExpression = forConditionContext.right.accept(expressionVisitor);
+    VarReferenceContext iterator = forConditionContext.iterator;
+    String varName = iterator.getText();
+    newScope.addLocalVariable(new LocalVariable(varName, startExpression.getType()));
+    Statement iteratorVariable = new VariableDeclarationStatement(varName, startExpression);
+    Statement statement = ctx.statement().accept(this);
+    return new RangedForStatement(iteratorVariable, startExpression, endExpression, statement, varName, newScope);
+  }
+
 }

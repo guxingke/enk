@@ -53,6 +53,18 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfStatement(EnkelParser.IfStatementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link EnkelParser#forStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForStatement(EnkelParser.ForStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link EnkelParser#forCondition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForCondition(EnkelParser.ForConditionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link EnkelParser#expressionList}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

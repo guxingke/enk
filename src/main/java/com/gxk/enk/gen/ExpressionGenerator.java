@@ -1,6 +1,7 @@
 package com.gxk.enk.gen;
 
 import com.gxk.enk.antlr.EnkelLexer;
+import com.gxk.enk.domain.LocalVariableReference;
 import com.gxk.enk.domain.expression.Addition;
 import com.gxk.enk.domain.LocalVariable;
 import com.gxk.enk.domain.Scope;
@@ -114,5 +115,11 @@ public class ExpressionGenerator {
     mv.visitLabel(trueLabel);
     mv.visitInsn(Opcodes.ICONST_1);
     mv.visitLabel(endLabel);
+  }
+
+  public void gen(LocalVariableReference localVariableReference) {
+    String varName = localVariableReference.getVariable().getName();
+    int index = scope.getLocalVariableIndex(varName);
+    mv.visitVarInsn(Opcodes.ILOAD, index);
   }
 }

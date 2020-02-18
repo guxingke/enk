@@ -11,11 +11,14 @@ statement : block
    | printStatement
    | expressionList
    | ifStatement
+   | forStatement
  ;
 variableDeclaration : VARIABLE name EQUALS expression;
 name : ID ;
 printStatement : PRINT expression ;
 ifStatement :  'if'  ('(')? expression (')')? trueStatement=statement ('else' falseStatement=statement)?;
+forStatement : 'for' ('(')? forCondition (')')? statement;
+forCondition : iterator=varReference 'in' left=expression'..'right=expression;
 expressionList : expression (',' expression)* ;
 expression :
             varReference #VARREFERENCE
