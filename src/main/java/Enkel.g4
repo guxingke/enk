@@ -2,7 +2,9 @@
 grammar Enkel;
 
 //parser rules
-compilationUnit : ( statement )* EOF;
+compilationUnit : ( function )* EOF;
+
+function: 'fun' 'main' '(' ')' block ;
 
 block : '{' statement* '}' ;
 
@@ -15,7 +17,7 @@ statement : block
  ;
 variableDeclaration : VARIABLE name EQUALS expression;
 name : ID ;
-printStatement : PRINT expression ;
+printStatement : PRINT '(' expression ')';
 ifStatement :  'if'  ('(')? expression (')')? trueStatement=statement ('else' falseStatement=statement)?;
 forStatement : 'for' ('(')? forCondition (')')? statement;
 forCondition : iterator=varReference 'in' left=expression'..'right=expression;
@@ -45,7 +47,7 @@ value : NUMBER
 
 //lexer rules (tokens)
 VARIABLE : 'val' ;
-PRINT : 'print' ;
+PRINT : 'println' ;
 EQUALS : '=' ;
 NUMBER : [0-9]+ ;
 STRING : '"'.*'"' ;

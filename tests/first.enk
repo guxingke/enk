@@ -1,5 +1,7 @@
-val x = 1
-print x
+fun main() {
+  val x = 1
+  println(x)
 
-val y = 10
-print y
+  val y = 10
+  println(y)
+}

@@ -1,4 +1,6 @@
-val x = "xxx"
-val y = 10
-print y
-print x
+fun main() {
+  val x = "xxx"
+  val y = 10
+  println(y)
+  println(x)
+}

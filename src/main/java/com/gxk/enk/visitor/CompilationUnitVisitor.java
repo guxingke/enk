@@ -17,7 +17,7 @@ public class CompilationUnitVisitor extends EnkelBaseVisitor<CompilationUnit> {
   public CompilationUnit visitCompilationUnit(CompilationUnitContext ctx) {
     BlockStatementVisitor blockStatementVisitor = new BlockStatementVisitor(scope);
     List<Statement> statements = new ArrayList<>();
-    for (StatementContext statementContext : ctx.statement()) {
+    for (StatementContext statementContext : ctx.function().get(0).block().statement()) {
       Statement statement = statementContext.accept(blockStatementVisitor);
       statements.add(statement);
     }

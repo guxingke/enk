@@ -1,11 +1,13 @@
-val a = 1
-val b = 2
+fun main() {
+  val a = 1
+  val b = 2
 
-val c = a - b
-val d = a + b
-val e = a * b
-val f = b / a
+  val c = a - b
+  val d = a + b
+  val e = a * b
+  val f = b / a
 
-val g = c * d + 1
+  val g = c * d + 1
 
-print g
+  println(g)
+}

@@ -1,4 +1,6 @@
-for (i in 10..1 ) {
-  print i
+fun main() {
+  for (i in 10..1 ) {
+    println(i)
+  }
 }
 

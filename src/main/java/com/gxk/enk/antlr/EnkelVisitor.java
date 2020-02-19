@@ -17,6 +17,12 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCompilationUnit(EnkelParser.CompilationUnitContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link EnkelParser#function}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunction(EnkelParser.FunctionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link EnkelParser#block}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
