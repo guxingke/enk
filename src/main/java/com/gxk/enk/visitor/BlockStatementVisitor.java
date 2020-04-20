@@ -9,7 +9,7 @@ import com.gxk.enk.antlr.EnkelParser.ForStatementContext;
 import com.gxk.enk.antlr.EnkelParser.IfStatementContext;
 import com.gxk.enk.antlr.EnkelParser.PrintStatementContext;
 import com.gxk.enk.antlr.EnkelParser.StatementContext;
-import com.gxk.enk.antlr.EnkelParser.VarReferenceContext;
+import com.gxk.enk.antlr.EnkelParser.VarRefContext;
 import com.gxk.enk.antlr.EnkelParser.VariableDeclarationContext;
 import com.gxk.enk.domain.LocalVariable;
 import com.gxk.enk.domain.RangedForStatement;
@@ -90,7 +90,7 @@ public class BlockStatementVisitor extends EnkelBaseVisitor<Statement> {
     ExpressionVisitor expressionVisitor = new ExpressionVisitor(newScope);
     Expression startExpression = forConditionContext.left.accept(expressionVisitor);
     Expression endExpression = forConditionContext.right.accept(expressionVisitor);
-    VarReferenceContext iterator = forConditionContext.iterator;
+    VarRefContext iterator = forConditionContext.iterator;
     String varName = iterator.getText();
     newScope.addLocalVariable(new LocalVariable(varName, startExpression.getType()));
     Statement iteratorVariable = new VariableDeclarationStatement(varName, startExpression);

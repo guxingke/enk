@@ -126,15 +126,15 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDIVIDE(EnkelParser.DIVIDEContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link EnkelParser#varReference}.
+	 * Visit a parse tree produced by {@link EnkelParser#varRef}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitVarReference(EnkelParser.VarReferenceContext ctx);
+	T visitVarRef(EnkelParser.VarRefContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link EnkelParser#value}.
+	 * Visit a parse tree produced by {@link EnkelParser#val}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitValue(EnkelParser.ValueContext ctx);
+	T visitVal(EnkelParser.ValContext ctx);
 }

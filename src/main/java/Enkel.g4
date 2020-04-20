@@ -20,11 +20,11 @@ name : ID ;
 printStatement : PRINT '(' expression ')';
 ifStatement :  'if'  ('(')? expression (')')? trueStatement=statement ('else' falseStatement=statement)?;
 forStatement : 'for' ('(')? forCondition (')')? statement;
-forCondition : iterator=varReference 'in' left=expression'..'right=expression;
+forCondition : iterator=varRef 'in' left=expression'..'right=expression;
 expressionList : expression (',' expression)* ;
 expression :
-            varReference #VARREFERENCE
-           | value        #VALUE
+            varRef #VARREFERENCE
+           | val #VALUE
            |  '('expression '*' expression')' #MULTIPLY
            | expression '*' expression  #MULTIPLY
            | '(' expression '/' expression ')' #DIVIDE
@@ -41,8 +41,8 @@ expression :
            | expression cmp='<=' expression #conditionalExpression
            ;
 
-varReference: ID ;
-value : NUMBER
+varRef : ID ;
+val : NUMBER
       | STRING ;
 
 //lexer rules (tokens)

@@ -143,12 +143,12 @@ public class EnkelBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitVarReference(EnkelParser.VarReferenceContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVarRef(EnkelParser.VarRefContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitValue(EnkelParser.ValueContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVal(EnkelParser.ValContext ctx) { return visitChildren(ctx); }
 }

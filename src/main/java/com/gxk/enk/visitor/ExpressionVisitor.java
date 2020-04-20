@@ -9,7 +9,7 @@ import com.gxk.enk.antlr.EnkelParser.MULTIPLYContext;
 import com.gxk.enk.antlr.EnkelParser.SUBSTRACTContext;
 import com.gxk.enk.antlr.EnkelParser.VALUEContext;
 import com.gxk.enk.antlr.EnkelParser.VARREFERENCEContext;
-import com.gxk.enk.antlr.EnkelParser.VarReferenceContext;
+import com.gxk.enk.antlr.EnkelParser.VarRefContext;
 import com.gxk.enk.domain.expression.Addition;
 import com.gxk.enk.domain.LocalVariable;
 import com.gxk.enk.domain.Scope;
@@ -37,7 +37,7 @@ public class ExpressionVisitor extends EnkelBaseVisitor<Expression> {
 
   @Override
   public Expression visitVARREFERENCE(VARREFERENCEContext ctx) {
-    VarReferenceContext varCtx = ctx.varReference();
+    VarRefContext varCtx = ctx.varRef();
     String text = varCtx.getText();
     LocalVariable localVariable = scope.getLocalVariable(text);
     return new VarReferenceExpression(text, localVariable.getType());

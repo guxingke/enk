@@ -75,8 +75,8 @@ forStatement
 forCondition
 expressionList
 expression
-varReference
-value
+varRef
+val
 
 
 atn:

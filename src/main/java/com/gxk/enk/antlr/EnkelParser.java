@@ -25,12 +25,12 @@ public class EnkelParser extends Parser {
 		RULE_compilationUnit = 0, RULE_function = 1, RULE_block = 2, RULE_statement = 3, 
 		RULE_variableDeclaration = 4, RULE_name = 5, RULE_printStatement = 6, 
 		RULE_ifStatement = 7, RULE_forStatement = 8, RULE_forCondition = 9, RULE_expressionList = 10, 
-		RULE_expression = 11, RULE_varReference = 12, RULE_value = 13;
+		RULE_expression = 11, RULE_varRef = 12, RULE_val = 13;
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"compilationUnit", "function", "block", "statement", "variableDeclaration", 
 			"name", "printStatement", "ifStatement", "forStatement", "forCondition", 
-			"expressionList", "expression", "varReference", "value"
+			"expressionList", "expression", "varRef", "val"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -623,11 +623,11 @@ public class EnkelParser extends Parser {
 	}
 
 	public static class ForConditionContext extends ParserRuleContext {
-		public VarReferenceContext iterator;
+		public VarRefContext iterator;
 		public ExpressionContext left;
 		public ExpressionContext right;
-		public VarReferenceContext varReference() {
-			return getRuleContext(VarReferenceContext.class,0);
+		public VarRefContext varRef() {
+			return getRuleContext(VarRefContext.class,0);
 		}
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
@@ -653,7 +653,7 @@ public class EnkelParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(94);
-			((ForConditionContext)_localctx).iterator = varReference();
+			((ForConditionContext)_localctx).iterator = varRef();
 			setState(95);
 			match(T__9);
 			setState(96);
@@ -800,8 +800,8 @@ public class EnkelParser extends Parser {
 		}
 	}
 	public static class VALUEContext extends ExpressionContext {
-		public ValueContext value() {
-			return getRuleContext(ValueContext.class,0);
+		public ValContext val() {
+			return getRuleContext(ValContext.class,0);
 		}
 		public VALUEContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
@@ -811,8 +811,8 @@ public class EnkelParser extends Parser {
 		}
 	}
 	public static class VARREFERENCEContext extends ExpressionContext {
-		public VarReferenceContext varReference() {
-			return getRuleContext(VarReferenceContext.class,0);
+		public VarRefContext varRef() {
+			return getRuleContext(VarRefContext.class,0);
 		}
 		public VARREFERENCEContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
@@ -861,7 +861,7 @@ public class EnkelParser extends Parser {
 				_prevctx = _localctx;
 
 				setState(109);
-				varReference();
+				varRef();
 				}
 				break;
 			case 2:
@@ -870,7 +870,7 @@ public class EnkelParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(110);
-				value();
+				val();
 				}
 				break;
 			case 3:
@@ -1094,22 +1094,22 @@ public class EnkelParser extends Parser {
 		return _localctx;
 	}
 
-	public static class VarReferenceContext extends ParserRuleContext {
+	public static class VarRefContext extends ParserRuleContext {
 		public TerminalNode ID() { return getToken(EnkelParser.ID, 0); }
-		public VarReferenceContext(ParserRuleContext parent, int invokingState) {
+		public VarRefContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_varReference; }
+		@Override public int getRuleIndex() { return RULE_varRef; }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof EnkelVisitor ) return ((EnkelVisitor<? extends T>)visitor).visitVarReference(this);
+			if ( visitor instanceof EnkelVisitor ) return ((EnkelVisitor<? extends T>)visitor).visitVarRef(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final VarReferenceContext varReference() throws RecognitionException {
-		VarReferenceContext _localctx = new VarReferenceContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_varReference);
+	public final VarRefContext varRef() throws RecognitionException {
+		VarRefContext _localctx = new VarRefContext(_ctx, getState());
+		enterRule(_localctx, 24, RULE_varRef);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
@@ -1128,23 +1128,23 @@ public class EnkelParser extends Parser {
 		return _localctx;
 	}
 
-	public static class ValueContext extends ParserRuleContext {
+	public static class ValContext extends ParserRuleContext {
 		public TerminalNode NUMBER() { return getToken(EnkelParser.NUMBER, 0); }
 		public TerminalNode STRING() { return getToken(EnkelParser.STRING, 0); }
-		public ValueContext(ParserRuleContext parent, int invokingState) {
+		public ValContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_value; }
+		@Override public int getRuleIndex() { return RULE_val; }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof EnkelVisitor ) return ((EnkelVisitor<? extends T>)visitor).visitValue(this);
+			if ( visitor instanceof EnkelVisitor ) return ((EnkelVisitor<? extends T>)visitor).visitVal(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final ValueContext value() throws RecognitionException {
-		ValueContext _localctx = new ValueContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_value);
+	public final ValContext val() throws RecognitionException {
+		ValContext _localctx = new ValContext(_ctx, getState());
+		enterRule(_localctx, 26, RULE_val);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
