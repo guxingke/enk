@@ -1,0 +1,6 @@
+fun main() {
+  val end = 10
+  val start = 2
+  for i in start .. end+10
+    println(i)
+}

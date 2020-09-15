@@ -65,14 +65,14 @@ public class StatementGenerator {
     Expression condition = ifStatement.getCondition();
     condition.accept(expressionGenerator);
 
-    Label trueLabel = new Label();
+    Label falseLabel = new Label();
     Label endLabel = new Label();
 
-    mv.visitJumpInsn(Opcodes.IFNE, trueLabel);
-    ifStatement.getFalseStatement().accept(this);
-    mv.visitJumpInsn(Opcodes.GOTO, endLabel);
-    mv.visitLabel(trueLabel);
+    mv.visitJumpInsn(Opcodes.IFEQ, falseLabel);
     ifStatement.getTrueStatement().accept(this);
+    mv.visitJumpInsn(Opcodes.GOTO, endLabel);
+    mv.visitLabel(falseLabel);
+    ifStatement.getFalseStatement().accept(this);
     mv.visitLabel(endLabel);
   }
 
@@ -92,8 +92,10 @@ public class StatementGenerator {
     Label endLoopSection = new Label();
     String iteratorVarName = rangedForStatement.getVarName();
     Expression endExpression = rangedForStatement.getEndExpression();
+
     LocalVariable variable = new LocalVariable(iteratorVarName, EnkelLexer.NUMBER);
     Expression iteratorVariable = new LocalVariableReference(variable);
+
     ConditionalExpression iteratorGreaterThanEndConditional = new ConditionalExpression(">",
         iteratorVariable, endExpression);
     ConditionalExpression iteratorLessThanEndConditional = new ConditionalExpression("<",
@@ -102,23 +104,24 @@ public class StatementGenerator {
     iterator.accept(scopeGeneratorWithNewScope);
 
     iteratorLessThanEndConditional.accept(exprGeneratorWithNewScope);
-    mv.visitJumpInsn(Opcodes.IFNE, incrementationSection);
+    mv.visitJumpInsn(Opcodes.IFEQ, decrementationSection);
 
-    iteratorGreaterThanEndConditional.accept(exprGeneratorWithNewScope);
-    mv.visitJumpInsn(Opcodes.IFNE, decrementationSection);
+//    iteratorGreaterThanEndConditional.accept(exprGeneratorWithNewScope);
+//    mv.visitJumpInsn(Opcodes.IFEQ, incrementationSection);
 
     mv.visitLabel(incrementationSection);
     rangedForStatement.getStatement().accept(scopeGeneratorWithNewScope);
     mv.visitIincInsn(newScope.getLocalVariableIndex(iteratorVarName), 1);
     iteratorGreaterThanEndConditional.accept(exprGeneratorWithNewScope);
-    mv.visitJumpInsn(Opcodes.IFEQ, incrementationSection);
-    mv.visitJumpInsn(Opcodes.GOTO, endLoopSection);
+    mv.visitJumpInsn(Opcodes.IFNE, endLoopSection);
+    mv.visitJumpInsn(Opcodes.GOTO, incrementationSection);
 
     mv.visitLabel(decrementationSection);
     rangedForStatement.getStatement().accept(scopeGeneratorWithNewScope);
     mv.visitIincInsn(newScope.getLocalVariableIndex(iteratorVarName), -1);
     iteratorLessThanEndConditional.accept(exprGeneratorWithNewScope);
-    mv.visitJumpInsn(Opcodes.IFEQ, decrementationSection);
+    mv.visitJumpInsn(Opcodes.IFNE, endLoopSection);
+    mv.visitJumpInsn(Opcodes.GOTO, decrementationSection);
 
     mv.visitLabel(endLoopSection);
   }
